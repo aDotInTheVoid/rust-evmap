@@ -8,13 +8,18 @@ use std::iter::FromIterator;
 use std::marker::PhantomData;
 use std::mem::ManuallyDrop;
 
-
-#[cfg(not(loom))]
-use std::sync::{self, Arc, atomic::{self, AtomicPtr}};
 #[cfg(loom)]
-use loom::sync::{self, Arc, atomic::{self, AtomicPtr}};
-
-
+use loom::sync::{
+    self,
+    atomic::{self, AtomicPtr},
+    Arc,
+};
+#[cfg(not(loom))]
+use std::sync::{
+    self,
+    atomic::{self, AtomicPtr},
+    Arc,
+};
 
 use std::{cell, fmt, mem};
 

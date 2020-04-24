@@ -3,13 +3,13 @@ use crate::inner::Inner;
 use crate::read::ReadHandle;
 use crate::values::Values;
 
+#[cfg(loom)]
+use loom::sync::{atomic, Arc, MutexGuard};
 use std::collections::hash_map::RandomState;
 use std::hash::{BuildHasher, Hash};
 use std::mem::ManuallyDrop;
 #[cfg(not(loom))]
 use std::sync::{atomic, Arc, MutexGuard};
-#[cfg(loom)]
-use loom::sync::{atomic, Arc, MutexGuard};
 use std::{fmt, mem, thread};
 
 #[cfg(feature = "indexed")]

@@ -5,10 +5,10 @@ use std::collections::hash_map::RandomState;
 use std::hash::{BuildHasher, Hash};
 use std::mem::ManuallyDrop;
 
-#[cfg(not(loom))]
-use std::sync::{self, atomic::AtomicPtr};
 #[cfg(loom)]
 use loom::sync::{self, atomic::AtomicPtr};
+#[cfg(not(loom))]
+use std::sync::{self, atomic::AtomicPtr};
 
 use std::fmt;
 

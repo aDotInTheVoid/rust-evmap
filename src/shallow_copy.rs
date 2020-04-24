@@ -36,10 +36,15 @@ pub trait ShallowCopy {
     unsafe fn shallow_copy(&self) -> ManuallyDrop<Self>;
 }
 
+#[cfg(not(loom))]
 use std::sync::Arc;
+#[cfg(loom)]
+use loom::sync::Arc;
+
 impl<T> ShallowCopy for Arc<T>
-where
-    T: ?Sized,
+// https://github.com/tokio-rs/loom/issues/85
+// where
+//     T: ?Sized,
 {
     unsafe fn shallow_copy(&self) -> ManuallyDrop<Self> {
         ManuallyDrop::new(Arc::from_raw(&**self as *const _))

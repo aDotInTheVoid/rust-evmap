@@ -6,8 +6,10 @@ use crate::values::Values;
 use std::collections::hash_map::RandomState;
 use std::hash::{BuildHasher, Hash};
 use std::mem::ManuallyDrop;
-use std::sync::atomic;
-use std::sync::{Arc, MutexGuard};
+#[cfg(not(loom))]
+use std::sync::{atomic, Arc, MutexGuard};
+#[cfg(loom)]
+use loom::sync::{atomic, Arc, MutexGuard};
 use std::{fmt, mem, thread};
 
 #[cfg(feature = "indexed")]

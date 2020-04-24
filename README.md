@@ -226,3 +226,9 @@ less often, performance increases (see bottom plot).
 ![Read throughput](benchmark/read-throughput.png)
 ![Write throughput](benchmark/write-throughput.png)
 ![Write throughput](benchmark/write-with-refresh.png)
+
+## Tests
+```bash
+RUSTFLAGS="--cfg loom" cargo test -- loom
+cargo test -- --skip loom
+```

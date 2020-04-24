@@ -1,6 +1,11 @@
 use std::mem;
-use std::sync;
-use std::sync::atomic;
+
+#[cfg(not(loom))]
+use std::sync::{self, atomic};
+#[cfg(loom)]
+use loom::sync::{self, atomic};
+
+
 
 /// A guard wrapping a live reference into an evmap.
 ///

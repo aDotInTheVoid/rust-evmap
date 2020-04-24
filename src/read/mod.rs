@@ -7,9 +7,15 @@ use std::hash::{BuildHasher, Hash};
 use std::iter::FromIterator;
 use std::marker::PhantomData;
 use std::mem::ManuallyDrop;
-use std::sync::atomic;
-use std::sync::atomic::AtomicPtr;
-use std::sync::{self, Arc};
+
+
+#[cfg(not(loom))]
+use std::sync::{self, Arc, atomic::{self, AtomicPtr}};
+#[cfg(loom)]
+use loom::sync::{self, Arc, atomic::{self, AtomicPtr}};
+
+
+
 use std::{cell, fmt, mem};
 
 mod guard;

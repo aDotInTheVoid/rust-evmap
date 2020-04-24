@@ -235,7 +235,10 @@
 use std::collections::hash_map::RandomState;
 use std::fmt;
 use std::hash::{BuildHasher, Hash};
+#[cfg(not(loom))]
 use std::sync::{atomic, Arc, Mutex};
+#[cfg(loom)]
+use loom::sync::{atomic, Arc, Mutex};
 
 mod inner;
 use crate::inner::Inner;

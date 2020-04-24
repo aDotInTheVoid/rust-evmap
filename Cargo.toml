@@ -27,6 +27,11 @@ indexmap = { version = "1.1.0", optional = true }
 smallvec = "1.0.0"
 hashbag = "0.1.2"
 bytes = { version = "0.5", optional = true }
+#TODO: make this a dev-dependency
+#TODO: use tokio-rs/loom when https://github.com/tokio-rs/loom/pull/131 lands
+loom = {git="https://github.com/aDotInTheVoid/loom/", branch="More-mutex-traits"}
+
+
 
 [features]
 default = []

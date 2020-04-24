@@ -4,8 +4,13 @@ use crate::inner::Inner;
 use std::collections::hash_map::RandomState;
 use std::hash::{BuildHasher, Hash};
 use std::mem::ManuallyDrop;
-use std::sync::atomic::AtomicPtr;
-use std::{fmt, sync};
+
+#[cfg(not(loom))]
+use std::sync::{self, atomic::AtomicPtr};
+#[cfg(loom)]
+use loom::sync::{self, atomic::AtomicPtr};
+
+use std::fmt;
 
 /// A type that is both `Sync` and `Send` and lets you produce new [`ReadHandle`] instances.
 ///

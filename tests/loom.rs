@@ -2,8 +2,6 @@ extern crate evmap;
 
 use std::iter::FromIterator;
 
-mod loom;
-
 macro_rules! assert_match {
     ($x:expr, $p:pat) => {
         if let $p = $x {

@@ -229,6 +229,7 @@ less often, performance increases (see bottom plot).
 
 ## Tests
 ```bash
-RUSTFLAGS="--cfg loom" cargo test -- loom
-cargo test -- --skip loom
+RUSTFLAGS="--cfg loom" cargo test
+cargo test
+RUST_BACKTRACE=1 RUSTFLAGS="--cfg loom" cargo test -- --nocapture
 ```

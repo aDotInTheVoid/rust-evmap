@@ -36,10 +36,7 @@ pub trait ShallowCopy {
     unsafe fn shallow_copy(&self) -> ManuallyDrop<Self>;
 }
 
-#[cfg(loom)]
-use loom::sync::Arc;
-#[cfg(not(loom))]
-use std::sync::Arc;
+use crate::sync::Arc;
 
 impl<T> ShallowCopy for Arc<T>
 // https://github.com/tokio-rs/loom/issues/85

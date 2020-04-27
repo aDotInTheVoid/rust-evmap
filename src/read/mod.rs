@@ -8,14 +8,7 @@ use std::iter::FromIterator;
 use std::marker::PhantomData;
 use std::mem::ManuallyDrop;
 
-#[cfg(loom)]
-use loom::sync::{
-    self,
-    atomic::{self, AtomicPtr},
-    Arc,
-};
-#[cfg(not(loom))]
-use std::sync::{
+use crate::sync::{
     self,
     atomic::{self, AtomicPtr},
     Arc,
@@ -167,7 +160,7 @@ where
         self.epoch.store(epoch + 1, atomic::Ordering::Release);
 
         // ensure that the pointer read happens strictly after updating the epoch
-        atomic::fence(atomic::Ordering::SeqCst);
+        crate::fense_seq_cst();
 
         // then, atomically read pointer, and use the map being pointed to
         let r_handle = self.inner.load(atomic::Ordering::Acquire);

@@ -232,13 +232,13 @@
 #![deny(missing_docs, rust_2018_idioms, missing_debug_implementations)]
 #![allow(clippy::type_complexity)]
 
-#[cfg(loom)]
-use loom::sync::{atomic, Arc, Mutex};
+mod loom_harness;
+pub(crate) use loom_harness::*;
+
+use crate::sync::{atomic, Arc, Mutex};
 use std::collections::hash_map::RandomState;
 use std::fmt;
 use std::hash::{BuildHasher, Hash};
-#[cfg(not(loom))]
-use std::sync::{atomic, Arc, Mutex};
 
 mod inner;
 use crate::inner::Inner;

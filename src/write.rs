@@ -3,13 +3,10 @@ use crate::inner::Inner;
 use crate::read::ReadHandle;
 use crate::values::Values;
 
-#[cfg(loom)]
-use loom::sync::{atomic, Arc, MutexGuard};
+use crate::sync::{atomic, Arc, MutexGuard};
 use std::collections::hash_map::RandomState;
 use std::hash::{BuildHasher, Hash};
 use std::mem::ManuallyDrop;
-#[cfg(not(loom))]
-use std::sync::{atomic, Arc, MutexGuard};
 use std::{fmt, mem, thread};
 
 #[cfg(feature = "indexed")]
@@ -146,7 +143,7 @@ where
         self.wait(&mut epochs);
 
         // ensure that the subsequent epoch reads aren't re-ordered to before the swap
-        atomic::fence(atomic::Ordering::SeqCst);
+        crate::fense_seq_cst();
 
         let w_handle = &mut self.w_handle.as_mut().unwrap().data;
 
@@ -319,7 +316,7 @@ where
         let r_handle = unsafe { Box::from_raw(r_handle) };
 
         // ensure that the subsequent epoch reads aren't re-ordered to before the swap
-        atomic::fence(atomic::Ordering::SeqCst);
+        crate::fense_seq_cst();
 
         for (i, epoch) in epochs.iter().enumerate() {
             self.last_epochs[i] = epoch.load(atomic::Ordering::Acquire);
